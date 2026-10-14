@@ -1,0 +1,23 @@
+# Render Blueprint: New > Blueprint > pick this repo. Free plan, no paid add-ons.
+# The container seeds the reviewer accounts on every boot (see docker/prod/entrypoint.sh).
+services:
+  - type: web
+    name: ajaia-docs
+    runtime: docker
+    plan: free
+    dockerfilePath: ./docker/prod/Dockerfile
+    dockerContext: .
+    healthCheckPath: /up
+    envVars:
+      - key: APP_NAME
+        value: Ajaia Docs
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: REVERB_APP_KEY
+        generateValue: true
+      - key: REVERB_APP_SECRET
+        generateValue: true
+      - key: SEED_DEMO_DATA
+        value: "true"
