@@ -6,9 +6,12 @@ cd /var/www/html
 
 export PORT="${PORT:-8080}"
 
-# Public URL. Render provides RENDER_EXTERNAL_HOSTNAME; other hosts should set APP_URL.
+# Public URL. Render provides RENDER_EXTERNAL_HOSTNAME, Railway provides RAILWAY_PUBLIC_DOMAIN;
+# other hosts should set APP_URL.
 if [ -z "${APP_URL:-}" ] && [ -n "${RENDER_EXTERNAL_HOSTNAME:-}" ]; then
   export APP_URL="https://${RENDER_EXTERNAL_HOSTNAME}"
+elif [ -z "${APP_URL:-}" ] && [ -n "${RAILWAY_PUBLIC_DOMAIN:-}" ]; then
+  export APP_URL="https://${RAILWAY_PUBLIC_DOMAIN}"
 fi
 export APP_URL="${APP_URL:-http://localhost:${PORT}}"
 PUBLIC_HOST=$(echo "$APP_URL" | sed -E 's#^https?://##; s#/.*$##')

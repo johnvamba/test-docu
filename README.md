@@ -93,6 +93,8 @@ The repo contains a single-container production image (`docker/prod/`) and a Ren
 
 No configuration is required: `APP_URL`, cookie domain and websocket host are derived from Render's hostname, and the app key is generated on boot if you don't set one. Any host that runs a Dockerfile and sets `PORT` works the same way (set `APP_URL` if the host doesn't provide `RENDER_EXTERNAL_HOSTNAME`).
 
+**Railway.** `railway.json` points Railway at `docker/prod/Dockerfile`; without it Railway auto-builds with its own PHP image, skipping the entrypoint (no app key, migrations or assets). Generate a public domain under **Settings → Networking** (target port `8080`); `APP_URL` is derived from `RAILWAY_PUBLIC_DOMAIN`.
+
 **Free-tier caveats.** The service sleeps after inactivity (the first request takes ~30–60 s), and its disk is ephemeral, so documents reset to the seeded state on each restart or deploy. That suits a review demo. For durable data, attach a persistent disk at `/var/www/html/storage` or point `DB_CONNECTION` at a managed Postgres/MySQL.
 
 ## Project layout
